@@ -4,12 +4,13 @@ all: test check
 
 
 test:
-	echo "Unit Tests Running"
+	@echo "Unit Tests Running"
 	bash dev/python_unit_test.sh
 
 check:
-	echo "Python Checker"
+	@echo "Python Checker"
 	bash dev/python_check_style.sh
 
 clean:
-	echo "Clean is empty now"
+	@echo "Clean is empty now"
+	find . -name '*.pyc' -delete
