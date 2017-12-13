@@ -13,9 +13,10 @@ from .pandas_reader import PandasReader
 logger = logging.getLogger(__file__)
 
 class TestPandasReader(unittest.TestCase):
+	"""Unit Test class for Pands Reader."""
 
 	def test_ml_reader(self):
-		filename = './pyfm/data/ml-1m/users.dat'
+		filename = './data/ml-1m/users.dat'
 		schema = ['UserID', 'Genre', 'Age', 'Ocuupation', 'ZipCode']
 		first_data = [1, 'F', 1, 10, '48067']
 		drop_index = ['Age']
