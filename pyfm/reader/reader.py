@@ -4,13 +4,22 @@
 __author__ = 'tuoyu'
 __desc__ = """This file is the basic reader for different input source"""
 
+
+import logging
+import sys
+
+
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+logger = logging.getLogger(__file__)
+
+
 class Reader(object):
 	"""
 	Reader for different format filss
 	"""
 	def __init__(self, delimiter, schema, **kwargs):
-		assert(delimiter == None, "Delimiter should not be empty")
-		assert(schema == None, "Data schema should not be empty")
+		#assert(delimiter == None, "Delimiter should not be empty")
+		#assert(schema == None, "Data schema should not be empty")
 		self._delimiter_ = delimiter
 		self._schema_ = schema
 		self._kwargs_ = kwargs
@@ -38,11 +47,11 @@ class Reader(object):
 
 	def check_file(self, filename):
 		# TODO basic file check
-		print "check filename {}".format(filename)
+		logger.info("check filename {}".format(filename))
 		return
 
 	def check_data(self):
-		assert(len(self._data_) > 0, "Data should not be empty")
+		#assert(len(self._data_) > 0, "Data should not be empty")
 		return
 
 	def read_impl(self, filename):
