@@ -19,7 +19,32 @@ class CMDLine(object):
         self._values_ = {}
         self._help_ = {}
 
-    def parse_name(self, ss):
+    def parse_args(self, args):
+        """Parse Arguments"""
+        i = 0
+        while i < len(args):
+            arg = args[i]
+            (result, parameter) = self.parse_name(arg)
+            if result:
+                if self.has_parameter(parameter):
+                    raise ParameterError("Parameter {} is specified already"
+                                         .format(parameter))
+                value = ""
+                if (i + 1) < len(args):
+                    value = args[i + 1]
+                    (result_next, _) = self.parse_name(value)
+                    if result_next is False:
+                        i = i + 1
+                    else:
+                        value = ""
+                self.set_value(parameter, value)
+                i = i + 1
+            else:
+                raise ParameterError("Parse Parameter {} Error"
+                                     .format(parameter))
+
+    @staticmethod
+    def parse_name(ss):
         """Parse string is valid or not parameter
 
         Args:
@@ -83,15 +108,20 @@ class CMDLine(object):
         return name
 
     def print_help(self):
-        for name, desc in self._help_:
-            s = "\t"
-            s += "{0}\t\t{}\n".format(name, desc)
+        print self.__str__()
+
+    def __str__(self):
+        s = "\n"
+        for (name, desc) in self._help_.iteritems():
+            s += "\t"
+            s += "{}\t\t{}\n".format(name, desc)
+        return s
 
     def get_value(self, parameter, default_value=None):
-        if self.has_parameter(parameter):
+        if self.has_parameter(parameter) is True:
             return self._values_[parameter]
         else:
-            if not default_value:
+            if default_value is not None:
                 return default_value
 
         raise ParameterError("Not Found Parameter {} "
@@ -100,9 +130,8 @@ class CMDLine(object):
 
     def get_values(self, parameter, fn=None):
         if self.has_parameter(parameter):
-            return [fn(ss.strip()) if fn is None else ss.strip()
-                    for ss in self.get_value(parameter)
-                                  .split(self.delimiter())]
+            return [fn(ss.strip()) if fn is not None else ss.strip()
+                    for ss in self.get_value(parameter).split(self.delimiter())]
         return []
 
     def get_str_values(self, parameter):
