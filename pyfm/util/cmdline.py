@@ -3,6 +3,15 @@
 
 from .exception import ParameterError
 
+"""
+This file is to finish an simple command line parser
+
+TODO:
+    1. add Long Desc and Short Desc
+    2. add Valid Check
+    3. add Bar and Foot
+"""
+
 
 class CMDLine(object):
     """CMDLine is to parse parameter.
